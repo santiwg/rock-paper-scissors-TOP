@@ -37,54 +37,73 @@ function getComputerChoice(){
     }
 }*/
 function playRound(humanChoice,computerChoice){
-    if (humanChoice=='rock'){
-        if (computerChoice=='rock'){
-            console.log('Tied round!')
-        }
-        else if(computerChoice=='paper'){
-            computerScore++;
-            console.log('Computer wins the round D:')
-        }
-        else{
-            humanScore++;
-            console.log('Human wins the round :D')
-        }
+    if (humanScore==5 || computerScore==5){
+        reset();
     }
-    else if(humanChoice=='paper'){
-        if (computerChoice=='rock'){
-            humanScore++;
-            console.log('Human wins the round :D')
+    if (humanChoice!=computerChoice)
+        if (humanChoice=='rock'){
+            if(computerChoice=='paper'){
+                computerScore++;
+            }
+            else{
+                humanScore++;
+            }
         }
-        else if(computerChoice=='paper'){
-            console.log('Tied round!')
-        }
-        else{
-            computerScore++;
-            console.log('Computer wins the round D:')
-        }
-    }
-    else{
-        if (computerChoice=='rock'){
-            computerScore++;
-            console.log('Computer wins the round D:')
-        }
-        else if(computerChoice=='paper'){
-            humanScore++;
-            console.log('Human wins the round :D')
+        else if(humanChoice=='paper'){
+            if (computerChoice=='rock'){
+                humanScore++;
+            }
+            else{
+                computerScore++;
+            }
         }
         else{
-            console.log('Tied round!')
+            if (computerChoice=='rock'){
+                computerScore++;
+            }
+            else {
+                humanScore++;}
         }
+    setValues(humanChoice,computerChoice);
+    if (humanScore==5 || computerScore==5){
+        setWinner();
     }
 }
+function reset(){
+    humanScore=0;
+    computerScore=0;
+    setValues('','');
+    winner.textContent='First to 5 wins...';
+}
+function setWinner(){
+    if (humanScore==5){
+        winner.textContent='Player wins!'
+    }else{
+        winner.textContent='Computer wins D:'
+    }
+}
+function setValues(humanChoice,computerChoice){
+    human_Choice.textContent='Your choice is:'+humanChoice;
+    computer_Choice.textContent="The computer's choice is:"+computerChoice;
+    human_Points.textContent='Player='+humanScore;
+    computer_Points.textContent="Computer="+computerScore;
+}   
 let humanScore=0;
 let computerScore=0;
-const rock=document.querySelector('rock');
-const paper=document.querySelector('paper');
-const scissors=document.querySelector('scissors');
-const humanChoice=document.querySelector('human-choice');
-const computerChoice=document.querySelector('computer-choice');
-const humanPoints=document.querySelector('human-points');
-const computerPoints=document.querySelector('computer-points');
-const winner=document.querySelector('winner');
-const reset=document.querySelector('reset')
+const rock=document.querySelector("#rock");
+const paper=document.querySelector('#paper');
+const scissors=document.querySelector('#scissors');
+const human_Choice=document.querySelector('#human-choice');
+const computer_Choice=document.querySelector('#computer-choice');
+const human_Points=document.querySelector('#human-points');
+const computer_Points=document.querySelector('#computer-points');
+const winner=document.querySelector('#winner');
+const resetter=document.querySelector('#resetter')
+
+resetter.addEventListener('click',reset);
+rock.addEventListener('click',()=>{
+    playRound('rock',getComputerChoice())});
+paper.addEventListener('click',()=>{
+    playRound('paper',getComputerChoice())});
+scissors.addEventListener('click',()=>{
+    playRound('scissors',getComputerChoice())});
